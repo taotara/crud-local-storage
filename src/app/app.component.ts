@@ -17,40 +17,75 @@ export class AppComponent implements OnInit {
   studentList: Student[] = [];
 
   ngOnInit(): void {
-    const localData = localStorage.getItem('nagular17crud');
+    const localData = localStorage.getItem('angular17crud');
     if (localData != null) {
       this.studentList = JSON.parse(localData);
     }
   }
 
   openModal() {
-    this.studentObj = new Student(); // Create a blank new modal everytime
     if (this.modal != null) {
       this.modal.nativeElement.style.display = 'block';
     }
   }
 
   closeModal() {
+    this.studentObj = new Student(); // Create a blank new modal everytime
     if (this.modal != null) {
       this.modal.nativeElement.style.display = 'none';
     }
   }
 
+  onDelete(item: Student) {
+    const isDelete = confirm('Are you sure you want to Delete?');
+    if (isDelete) {
+      const currentRecord = this.studentList.findIndex(
+        (m) => m.id === this.studentObj.id
+      );
+      this.studentList.splice(currentRecord, 1);
+      localStorage.setItem('angular17crud', JSON.stringify(this.studentList));
+    }
+  }
+
+  onEdit(item: Student) {
+    this.studentObj = item;
+    this.openModal();
+  }
+
+  updateStudent() {
+    const currentRecord = this.studentList.find(
+      (m) => m.id === this.studentObj.id
+    );
+    if (currentRecord != undefined) {
+      currentRecord.name = this.studentObj.name;
+      currentRecord.mobileNo = this.studentObj.mobileNo;
+      currentRecord.email = this.studentObj.email;
+      currentRecord.city = this.studentObj.city;
+      currentRecord.state = this.studentObj.state;
+      currentRecord.pincode = this.studentObj.pincode;
+      currentRecord.address = this.studentObj.address;
+    }
+    localStorage.setItem('angular17crud', JSON.stringify(this.studentList));
+    this.closeModal();
+  }
+
   saveStudent() {
     debugger;
-    const isLocalPresent = localStorage.getItem('nagular17crud');
+    const isLocalPresent = localStorage.getItem('angular17crud');
     if (isLocalPresent != null) {
       const oldArray = JSON.parse(isLocalPresent);
+      this.studentObj.id = oldArray.length + 1;
       oldArray.push(this.studentObj);
       // To show the newly added records
       this.studentList = oldArray;
-      localStorage.setItem('nagular17crud', JSON.stringify(oldArray));
+      localStorage.setItem('angular17crud', JSON.stringify(oldArray));
     } else {
       const newArr = [];
       newArr.push(this.studentObj);
+      this.studentObj.id = 1;
       // To show the newly added records
       this.studentList = newArr;
-      localStorage.setItem('nagular17crud', JSON.stringify(newArr));
+      localStorage.setItem('angular17crud', JSON.stringify(newArr));
     }
     // to close the modal after save
     this.closeModal();

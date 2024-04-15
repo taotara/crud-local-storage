@@ -1,6 +1,6 @@
 <router-outlet />
 <div class="container">
-  <div class="row pt-3">
+  <div class="row pt-3 mb-3">
     <div class="col-6">
       <h4>Student Portal</h4>
     </div>
@@ -10,10 +10,11 @@
       </button>
     </div>
   </div>
+  @if (studentList.length !== 0) {
   <div class="row">
     @for (item of studentList; track $index) {
-    <div class="col-3">
-      <div class="card">
+    <div class="col-3 mb-3">
+      <div class="card h-100">
         <div class="card-header">
           <div class="row">
             <div class="col-6">{{ item.name }}</div>
@@ -24,17 +25,51 @@
           <p>{{ item.city }}, {{ item.state }}, {{ item.pincode }}</p>
           <p>{{ item.address }}</p>
         </div>
-        <div class="card-footer text-center">
-          <p>{{ item.email }}</p>
+        <div class="card-footer">
+          <div class="row">
+            <div class="col-7">
+              <small>{{ item.email }}</small>
+            </div>
+            <div class="col-5">
+              <button
+                class="btn btn-sm btn-primary me-1"
+                (click)="onEdit(item)"
+                style="
+                  --bs-btn-padding-y: 0.25rem;
+                  --bs-btn-padding-x: 0.5rem;
+                  --bs-btn-font-size: 0.75rem;
+                "
+              >
+                Edit
+              </button>
+              <button
+                class="btn btn-sm btn-danger"
+                (click)="onDelete(item)"
+                style="
+                  --bs-btn-padding-y: 0.25rem;
+                  --bs-btn-padding-x: 0.5rem;
+                  --bs-btn-font-size: 0.75rem;
+                "
+              >
+                Delete
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-
     }
   </div>
+  } @else {
+  <div class="row">
+    <div class="col-12 p-4 text-center">
+      <p>No Record Found. Create New Record</p>
+    </div>
+  </div>
+  }
 </div>
 
-<<!-- The Modal -->
+<!-- The Modal -->
 <div class="modal" id="newStudentModal" #newStudentModal>
   <div class="modal-dialog">
     <div class="modal-content">
@@ -119,9 +154,22 @@
           <button type="button" class="btn btn-danger" (click)="closeModal()">
             Close
           </button>
-          <button type="button" class="btn btn-primary" (click)="saveStudent()">
-            Save
+          @if (studentObj.id == 0) {<button
+            type="button"
+            class="btn btn-primary"
+            (click)="saveStudent()"
+          >
+            Save Student
           </button>
+          } @else {
+          <button
+            type="button"
+            class="btn btn-success"
+            (click)="updateStudent()"
+          >
+            Update Student
+          </button>
+          }
         </div>
       </div>
     </div>
