@@ -1,0 +1,129 @@
+<router-outlet />
+<div class="container">
+  <div class="row pt-3">
+    <div class="col-6">
+      <h4>Student Portal</h4>
+    </div>
+    <div class="col-6 text-end">
+      <button class="btn btn-outline-success" (click)="openModal()">
+        Add New
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    @for (item of studentList; track $index) {
+    <div class="col-3">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-6">{{ item.name }}</div>
+            <div class="col-6 text-end">{{ item.mobileNo }}</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p>{{ item.city }}, {{ item.state }}, {{ item.pincode }}</p>
+          <p>{{ item.address }}</p>
+        </div>
+        <div class="card-footer text-center">
+          <p>{{ item.email }}</p>
+        </div>
+      </div>
+    </div>
+
+    }
+  </div>
+</div>
+
+<<!-- The Modal -->
+<div class="modal" id="newStudentModal" #newStudentModal>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Modal Heading</h4>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+            <label for="name">Name</label>
+            <input
+              type="text"
+              [(ngModel)]="studentObj.name"
+              class="form-control"
+              placeholder="Name"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <label for="mobileNo">Mobile No</label>
+            <input
+              type="text"
+              [(ngModel)]="studentObj.mobileNo"
+              class="form-control"
+              placeholder="Mobile"
+            />
+          </div>
+          <div class="col-6">
+            <label for="email">Email</label>
+            <input
+              type="text"
+              [(ngModel)]="studentObj.email"
+              class="form-control"
+              placeholder="Email"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <label for="city">City</label>
+            <input
+              type="text"
+              [(ngModel)]="studentObj.city"
+              class="form-control"
+              placeholder="City"
+            />
+          </div>
+          <div class="col-4">
+            <label for="state">State</label>
+            <input
+              type="text"
+              [(ngModel)]="studentObj.state"
+              class="form-control"
+              placeholder="State"
+            />
+          </div>
+          <div class="col-4">
+            <label for="pinCode">Pin Code</label>
+            <input
+              type="text"
+              [(ngModel)]="studentObj.pincode"
+              class="form-control"
+              placeholder="Pin Code"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <label for="address">Address</label>
+            <textarea
+              rows="3"
+              [(ngModel)]="studentObj.address"
+              class="form-control"
+              placeholder="Address"
+            ></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="closeModal()">
+            Close
+          </button>
+          <button type="button" class="btn btn-primary" (click)="saveStudent()">
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
